@@ -1,0 +1,22 @@
+# model weights (regenerable from the notebook; too big for git)
+*.pth
+*.pt
+*.onnx
+
+# data
+data/
+*.npz
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# experiment tracking
+wandb/
+
+# secrets
+.env
+*.secret
