@@ -44,14 +44,32 @@ python app.py
 
 ## Results
 
-<!-- Fill these in after training — a table like this is what employers look for. -->
+5 epochs, AdamW, mixed precision, on BloodMNIST (train/val split). Full run history and
+loss curves are logged to W&B — [ConvNeXt run](https://wandb.ai/akshayanil4-none/cv-sprint-blood-cells/runs/mmyezgvs) ·
+[ViT run](https://wandb.ai/akshayanil4-none/cv-sprint-blood-cells/runs/kvfvz0k1).
 
-| Model | Params | Val accuracy | Test accuracy |
+| Model | Params | Train accuracy | Val accuracy (best epoch) |
 |---|---|---|---|
-| ConvNeXt V2 Tiny | ~28M | _TODO_ | _TODO_ |
-| ViT-Small/16 | ~22M | _TODO_ | _TODO_ |
+| ConvNeXt V2 Tiny | 27.9M | 97.8% | **96.5%** (epoch 4) |
+| ViT-Small/16 | 21.7M | 98.1% | **97.3%** (epoch 3) |
 
-_Add a Grad-CAM example image and a confusion matrix here once trained._
+**Takeaway:** ViT-Small edged out ConvNeXt on validation accuracy (97.3% vs 96.5%) despite
+having ~6M fewer parameters. The common wisdom is that ViTs need more data than CNNs to
+close the inductive-bias gap — but BloodMNIST's ~12k training images and centered,
+low-clutter cell images were apparently enough for a small ImageNet-pretrained ViT to
+fine-tune well. Both models show mild overfitting by epoch 5 (train accuracy ~1.5-2pp
+above the best val accuracy) — more augmentation or early stopping would likely close
+that gap further.
+
+**Honest gap:** only train/val were logged in this run, no separate held-out test-set
+evaluation. Before calling this "done," the natural next step is scoring both checkpoints
+on BloodMNIST's official test split (via `medmnist`) to confirm val accuracy wasn't
+optimistic.
+
+Below: Grad-CAM on an immature granulocyte — the heatmap centers on the cell body itself
+rather than background, which is the interpretability bar for any medical-imaging model.
+
+![Grad-CAM example](outputs/gradcam_example.png)
 
 ## Notes
 
