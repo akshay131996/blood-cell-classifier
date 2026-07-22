@@ -3,3 +3,7 @@ torchvision
 timm
 gradio
 Pillow
+medmnist
+matplotlib
+scikit-learn
+grad-cam
